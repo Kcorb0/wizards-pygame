@@ -1,10 +1,19 @@
-from schools import pyromancer
+import pygame
+import sys
+
+pygame.init()
+
+# 1280 x 720 display
+WIDTH, HEIGHT = 1280, 720
+
+window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 
-class NewGame:
-    def __init__(self, player, enemy, length):
-        pass
+run = True
 
+while run:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
 
-test_wiz = pyromancer.Pyromancer("yo")
-print(test_wiz)
+    pygame.display
