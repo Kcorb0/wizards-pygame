@@ -1,26 +1,18 @@
 import pygame
+import os
 
 
 class Wizard:
-    def __init__(self, name, age, speed=50, health=30, mana=3):
+    def __init__(self, name, age, speed, health, mana):
         self.name = name
         self.health = health
         self.age = age
         self.mana = mana
+        self.speed = speed
 
     def increase_mana(self):
         increment = 1
         self.mana += increment
-
-    def use_spell(self, spell):
-        # Method takes a list as arguments ['Cast Doubt', 4, 5, other effects]
-        title = spell[0]
-        dmg = spell[1]
-        mana = spell[2]
-
-        print(
-            f"{self.name} uses {title} dealing ({dmg}) damage. Mana reduced by ({mana})."
-        )
 
     def open_spellbook(self):
         pass
@@ -28,21 +20,36 @@ class Wizard:
 
 class Pyromancer(Wizard):
     def __init__(self, name, age, speed=55, health=30, mana=3):
-        super().__init__(name, age, health=health, mana=mana)
-        self.spells = {}  # Dict of wizard spells {title: [dmg, mana, other effects]}
+        super().__init__(name, age, speed=speed, health=health, mana=mana)
         self.sprite = None
+
+    def spell_explosion(self):
+        title = "Explosion"
+        dmg = 8
+        cost = 7
+        description = "Massive damage, destroys surroundings and lowers oponents speed."
+
+        return [title, dmg, cost, description]
+
+    def spell_firewhirl(self):
+        title = "Fire Whirl"
+        dmg = 3
+        cost = 6
+        description = "Flames engulf you and linger. (Take 2 damage for 2 turns)"
+
+        return [title, dmg, cost, description]
 
 
 class Necromancer(Wizard):
     def __init__(self, name, age, speed=40, health=30, mana=3):
-        super().__init__(name, age, health=health, mana=mana)
+        super().__init__(name, age, speed=speed, health=health, mana=mana)
         self.spells = []  # List of wizard spells [title, dmg, mana, other effects]
         self.sprite = None
 
 
 if __name__ == "__main__":
-    test_wiz = Pyromancer("Clint Eastwood", 25)
+    os.system("cls")
 
-    print(test_wiz.mana)
-    test_wiz.increase_mana()
-    print(test_wiz.mana)
+    test_wiz = Pyromancer("Clint Eastwood", 25)
+    print(test_wiz.name)
+    print(test_wiz.spell_explosion())
