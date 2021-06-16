@@ -22,9 +22,10 @@ class Wizard:
 
 
 class Pyromancer(Wizard):
-    def __init__(self, name, age, speed=55, health=30, mana=3):
+    def __init__(self, name, age, speed=55, health=100, mana=3):
         super().__init__(name, age, speed=speed, health=health, mana=mana)
-        self.sprite = None
+        self.title = "(Pyromancer)"
+        self.sprite = "assets/pyromancer.png"
         self.spellbook = ["Explosion", "Fire Whirl"]
 
     def spell_explosion(self):
@@ -45,9 +46,10 @@ class Pyromancer(Wizard):
 
 
 class Necromancer(Wizard):
-    def __init__(self, name, age, speed=40, health=30, mana=3):
+    def __init__(self, name, age, speed=40, health=100, mana=3):
         super().__init__(name, age, speed=speed, health=health, mana=mana)
-        self.sprite = None
+        self.title = "(Necromancer)"
+        self.sprite = "assets/necromancer.png"
         self.spellbook = ["Corrupt"]
 
     def spell_corrupt(self):
