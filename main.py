@@ -1,3 +1,4 @@
+from wizards import Pyromancer, Necromancer
 import pygame
 import sys
 
@@ -9,6 +10,9 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Wizards")
 bg = pygame.image.load("assets/spooky_bg.jpg")
 
+player = Pyromancer("Josh", 22)
+enemy = Necromancer("Kcorb", 45)
+turn = 1
 
 while True:
     for event in pygame.event.get():
@@ -17,3 +21,4 @@ while True:
 
     window.blit(bg, [0, 0])
     pygame.display.update()
+    turn += 1
