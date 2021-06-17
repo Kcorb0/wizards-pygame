@@ -23,10 +23,15 @@ def mana_orbs(p1_mana, p2_mana):
         mana_orb, [int(mana_orb.get_width() * 0.14), int(mana_orb.get_height() * 0.14)]
     )
 
-    x = 25
+    p1_x = 25
     for i in range(0, p1_mana):
-        window.blit(mana_orb_scaled, [x, 100])
-        x += 45
+        window.blit(mana_orb_scaled, [p1_x, 100])
+        p1_x += 45
+
+    p2_x = 60
+    for x in range(0, 3):
+        window.blit(mana_orb_scaled, [WIDTH - p2_x, 100])
+        p2_x += 45
 
 
 def health_bar(p1_hp, p2_hp):
@@ -122,22 +127,15 @@ def update_turn(turn):
 player = Pyromancer("Kcorb", 22)
 enemy = Necromancer("Melvin", 45)
 turn = 1
+m_cnt = 0
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
-    update_turn(turn)
     turn += 1
 
-    cnt = 0
-    cnt += 1
-    if cnt >= 100:
-        cnt = 0
-        player.mana += 1
-        if player.mana >= 10:
-            player.mana = 0
-
     draw_objects(player, enemy)
+    update_turn(turn)
     pygame.display.update()
