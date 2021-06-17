@@ -22,7 +22,7 @@ class Wizard:
 
 
 class Pyromancer(Wizard):
-    def __init__(self, name, age, speed=55, health=100, mana=3):
+    def __init__(self, name, age, speed=55, health=1, mana=3):
         super().__init__(name, age, speed=speed, health=health, mana=mana)
         self.title = "(Pyromancer)"
         self.sprite = "assets/pyromancer.png"
@@ -32,6 +32,7 @@ class Pyromancer(Wizard):
         title = "Explosion"
         dmg = 8
         cost = 7
+        card_image = ""
         description = "Massive damage, destroys surroundings and lowers oponents speed."
 
         return [title, dmg, cost, description]
@@ -46,7 +47,7 @@ class Pyromancer(Wizard):
 
 
 class Necromancer(Wizard):
-    def __init__(self, name, age, speed=40, health=100, mana=3):
+    def __init__(self, name, age, speed=40, health=1, mana=3):
         super().__init__(name, age, speed=speed, health=health, mana=mana)
         self.title = "(Necromancer)"
         self.sprite = "assets/necromancer.png"

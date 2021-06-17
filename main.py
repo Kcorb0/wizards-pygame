@@ -16,18 +16,27 @@ bg = pygame.image.load("assets/spooky_bg.jpg")
 font_casc = pygame.font.SysFont("Cascadia Mono", 50)
 
 
-def mana_orbs():
-    pass
+def mana_orbs(p1_mana, p2_mana):
+
+    mana_orb = pygame.image.load("assets/mana_orb.png")
+    mana_orb_scaled = pygame.transform.scale(
+        mana_orb, [int(mana_orb.get_width() * 0.14), int(mana_orb.get_height() * 0.14)]
+    )
+
+    x = 25
+    for i in range(0, p1_mana):
+        window.blit(mana_orb_scaled, [x, 100])
+        x += 45
 
 
 def health_bar(p1_hp, p2_hp):
-    if p1_hp < 100:
-        bar1_width = 400 * float(f"0.{p1_hp}")
+    if p1_hp < 1:
+        bar1_width = 400 * p1_hp
     else:
         bar1_width = 400
 
-    if p2_hp < 100:
-        bar2_width = 400 * float(f"0.{p2_hp}")
+    if p2_hp < 1:
+        bar2_width = 400 * p2_hp
     else:
         bar2_width = 400
 
@@ -101,6 +110,7 @@ def draw_objects(player1, player2):
     window.blit(bg, [0, 0])
     players(player1, player2)
     health_bar(player1.health, player2.health)
+    mana_orbs(player1.mana, player2.mana)
     spell_board()
 
 
@@ -118,13 +128,16 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
 
-    draw_objects(player, enemy)
     update_turn(turn)
-    pygame.display.update()
     turn += 1
 
-    player.health -= 1
-    enemy.health -= 1
-    if player.health < 30 or enemy.health < 30:
-        player.health = rand.randint(31, 99)
-        enemy.health = rand.randint(31, 99)
+    cnt = 0
+    cnt += 1
+    if cnt >= 100:
+        cnt = 0
+        player.mana += 1
+        if player.mana >= 10:
+            player.mana = 0
+
+    draw_objects(player, enemy)
+    pygame.display.update()
