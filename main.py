@@ -29,7 +29,7 @@ def mana_orbs(p1_mana, p2_mana):
         p1_x += 45
 
     p2_x = 60
-    for x in range(0, 3):
+    for x in range(0, p2_mana):
         window.blit(mana_orb_scaled, [WIDTH - p2_x, 100])
         p2_x += 45
 
@@ -65,6 +65,15 @@ def spell_board():
     )
     window.blit(spell_board_scaled, [25, 575])
     window.blit(spell_board_scaled, [WIDTH - spell_board_scaled.get_width() - 25, 575])
+
+
+def generate_spells(player, pos):
+
+    spell1 = player.spellbook[0]
+    spell2 = player.spellbook[1]
+    spell2 = player.spellbook[2]
+
+    window.blit(spell1[3], [35, 570])
 
 
 def players(player1, player2):
@@ -117,6 +126,7 @@ def draw_objects(player1, player2):
     health_bar(player1.health, player2.health)
     mana_orbs(player1.mana, player2.mana)
     spell_board()
+    generate_spells(player1, "left")
 
 
 def update_turn(turn):
