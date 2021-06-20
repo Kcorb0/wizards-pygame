@@ -12,8 +12,9 @@ pygame.font.init()
 WIDTH, HEIGHT = 1280, 720
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Wizards")
-bg = pygame.image.load("assets/spooky_bg.jpg")
-font_casc = pygame.font.SysFont("Cascadia Mono", 50)
+bg = pygame.image.load("assets/new_spooky_bg.png")
+font_casc_standard = pygame.font.SysFont("Cascadia Mono", 50)
+font_casc_small = pygame.font.SysFont("Cascadia Mono", 35)
 
 
 def mana_orbs(p1_mana, p2_mana):
@@ -73,12 +74,17 @@ def generate_spells(player, pos):
     spell2 = player.spellbook[1]
     spell2 = player.spellbook[2]
 
+    # First spell
     window.blit(spell1[3], [35, 570])
+    dmg_txt = font_casc_small.render(f"{spell1[1]}", True, (255, 194, 222))
+    window.blit(dmg_txt, [50, 650])
+    mana_txt = font_casc_small.render(f"{spell1[2]}", True, (0, 98, 204))
+    window.blit(mana_txt, [190, 580])
 
 
 def players(player1, player2):
 
-    scale_multiplier = 0.40
+    scale_multiplier = 0.30
 
     player1_sprite = pygame.image.load(player1.sprite)
     player1_sprite_scaled = pygame.transform.scale(
@@ -102,19 +108,21 @@ def players(player1, player2):
         False,
     )
 
-    player1_name = font_casc.render(
+    player1_name = font_casc_standard.render(
         f"{player1.name} {player1.title}", True, (255, 255, 255)
     )
-    player2_name = font_casc.render(
+    player2_name = font_casc_standard.render(
         f"{player2.name} {player2.title}", True, (255, 255, 255)
     )
 
+    # Blit player names
     window.blit(player1_name, [25, 25])
     window.blit(player2_name, [WIDTH - player2_name.get_width() - 25, 25])
 
-    window.blit(player1_sprite_scaled, [200, 250])
+    # Blit player sprites
+    window.blit(player1_sprite_scaled, [250, 300])
     window.blit(
-        player2_sprite_scaled, [WIDTH - player2_sprite_scaled.get_width() - 200, 250]
+        player2_sprite_scaled, [WIDTH - player2_sprite_scaled.get_width() - 250, 300]
     )
 
 
@@ -130,21 +138,25 @@ def draw_objects(player1, player2):
 
 
 def update_turn(turn):
-    turn_text = font_casc.render(f"Turn {turn}", True, (255, 255, 255))
+    turn_text = font_casc_standard.render(f"Turn {turn}", True, (255, 255, 255))
     window.blit(turn_text, [(WIDTH / 2) - turn_text.get_width() + 25, 25])
 
 
 player = Pyromancer("Kcorb", 22)
-enemy = Necromancer("Melvin", 45)
+enemy = Necromancer("Billy", 45)
+player_turn = True
 turn = 1
-m_cnt = 0
 
 while True:
+    mouse_pos = pygame.mouse.get_pos()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
-    turn += 1
+        if player_turn == True:
+            turn += 1
+            if 
 
     draw_objects(player, enemy)
     update_turn(turn)
