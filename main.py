@@ -156,8 +156,10 @@ while True:
 
         if player_turn == True:
             turn += 1
-            if 
-
+            if True:
+                pass
+    
+    player.health -= .01
     draw_objects(player, enemy)
     update_turn(turn)
     pygame.display.update()
