@@ -11,17 +11,15 @@ class Wizard:
         self.spell2 = None
         self.spell3 = None
 
-    def stat_bars(self, pos):
-        return [self.name, self.name, self.age]
+    def idle_stance(self):
+        self.stance = self.sprite[0]
+
+    def battle_stance(self):
+        self.stance = self.sprite[1]
 
     def open_spellbook(self):
         pass
 
-    def idle_stance(self):
-        pass
-
-    def battle_stance(self):
-        pass
 
     def cast_spell(self, target, spell_num):
         if spell_num == 1:
@@ -42,7 +40,8 @@ class Pyromancer(Wizard):
     def __init__(self, name, health, mana):
         super().__init__(name, health=health, mana=mana)
         self.title = "(Pyromancer)"
-        self.sprite = "assets/wizards/pyromancer/pyromancer_idle.png"
+        self.sprite = ["assets/wizards/pyromancer/pyromancer_idle.png", "assets/wizards/pyromancer/pyromancer_bstance.png"]
+        self.stance = self.sprite[1]
         self.spellbook = [
             self.spell_explosion(),
             self.spell_firewhirl(),
@@ -81,7 +80,8 @@ class Necromancer(Wizard):
     def __init__(self, name, health, mana):
         super().__init__(name, health=health, mana=mana)
         self.title = "(Necromancer)"
-        self.sprite = "assets/wizards/necromancer/necromancer_idle.png"
+        self.sprite = ["assets/wizards/necromancer/necromancer_idle.png", "assets/wizards/necromancer/necromancer_bstance.png"]
+        self.stance = self.sprite[0]
         self.spellbook = [
             self.spell_corrupt(), 
             self.spell_summon_dead(), 

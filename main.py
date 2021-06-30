@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random as rand
+import time
 from wizards import Pyromancer, Necromancer
 
 # Notes
@@ -38,13 +39,28 @@ def mana_orbs(p1_mana, p2_mana):
 def health_bar(p1_hearts, p2_hearts):
 
     heart = pygame.image.load("assets/health_and_mana/heart.png")
+    heart_half = pygame.image.load("assets/health_and_mana/heart_half.png")
+    heart_armored = pygame.image.load("assets/health_and_mana/heart_armored.png")
+    heart_armored_half = pygame.image.load("assets/health_and_mana/heart_armored_half.png")
+
     p1_x = 25
     for i in range(0, p1_hearts):
-        window.blit(heart, [p1_x, 65])
+        if i < 10:
+            window.blit(heart, [p1_x, 65])
+        else:
+            if i == 10:
+                p1_x = 25
+            window.blit(heart_armored, [p1_x, 65])
         p1_x += 45
     p2_x = 60
+
     for x in range(0, p2_hearts):
-        window.blit(heart, [WIDTH - p2_x, 65])
+        if x < 10:
+            window.blit(heart, [WIDTH - p2_x, 65])
+        else:
+            if x == 10:
+                p2_x = 60
+            window.blit(heart_armored, [WIDTH - p2_x, 65])
         p2_x += 45
 
 
@@ -88,8 +104,8 @@ def generate_spell(player, pos):
 def players(player1, player2):
 
     # Create player images
-    player1_sprite = pygame.image.load(player1.sprite)
-    player2_sprite = pygame.transform.flip(pygame.image.load(player2.sprite), True, False)
+    player1_sprite = pygame.image.load(player1.stance)
+    player2_sprite = pygame.transform.flip(pygame.image.load(player2.stance), True, False)
 
     # Create player names text
     player1_name = font_casc_standard.render(
@@ -107,6 +123,10 @@ def players(player1, player2):
     window.blit(player1_sprite, [250, 250])
     window.blit(player2_sprite, [WIDTH - player2_sprite.get_width() - 250, 250])
 
+def enemy_turn(player, enemy):
+    cast = rand.randint(1, 3)
+    enemy.cast_spell(player, cast)
+
 
 def draw_objects(player1, player2):
 
@@ -120,45 +140,49 @@ def draw_objects(player1, player2):
     generate_spell(player2, "right")
 
 
-def lightshow(p1, p2):
-    # Why not
-    if p1.mana > 10:
-        p1.mana = 1
-        p2.mana = 1
-
-    if p1.health <= 0:
-        p1.health += 1
-        p2.health += 1
-
-    player.mana += 1
-    p2.mana += 1
-    p1.health -= .01
-    enemy.health -= .01
-
-# Necromancer("Billy", 45)
-# Pyromancer("Kcorb", 22)
-player = Pyromancer("Kcorb", 10, 10)
-enemy = Necromancer("Cerb", 10, 10)
+#player = Pyromancer("Kcorb", 10, 10)
+player = Necromancer("Kcorb", 20, 10)
+#enemy = Necromancer("Cerb", 10, 10)
+enemy = Pyromancer("Cerb", 20, 10)
 player_turn = True
 
+turn = 0
+
+
 while True:
-    mouse_pos = pygame.mouse.get_pos()
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        if event.type == pygame.MOUSEBUTTONUP:
-            print(mouse_pos)
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_1:
-                player.cast_spell(enemy, 1)
-            if event.key == pygame.K_2:
-                player.cast_spell(enemy, 2)
-            if event.key == pygame.K_3:
-                player.cast_spell(enemy, 3)
-
+        if turn%2 == 0:
+            player.battle_stance()
+            enemy.idle_stance()
+            draw_objects(player, enemy)
+            pygame.display.update()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_1:
+                    player.cast_spell(enemy, 1)
+                    turn += 1
+                if event.key == pygame.K_2:
+                    player.cast_spell(enemy, 2)
+                    turn += 1
+                if event.key == pygame.K_3:
+                    player.cast_spell(enemy, 3)
+                    turn += 1
     
     draw_objects(player, enemy)
     pygame.display.update()
 
-    # lightshow(player, enemy)
+    if turn%2 == 1:
+        player.idle_stance()
+        enemy.battle_stance()
+        draw_objects(player, enemy)
+        pygame.display.update()
+        time.sleep(2)
+        enemy_turn(player, enemy)
+        turn += 1
+
+    
+    draw_objects(player, enemy)
+    pygame.display.update()
